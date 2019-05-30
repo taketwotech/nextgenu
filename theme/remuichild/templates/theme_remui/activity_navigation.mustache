@@ -1,0 +1,106 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_remuichild/activity_navigation
+
+    Display the activity navigation for all activities in a course
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * flatnavigation - array of flat_navigation_nodes
+      * showdivider - boolean
+      * action - string
+      * isactive - boolean
+      * get_indent - integer
+      * is_section - boolean
+      * text - HTML
+
+    Example context (json):
+    {
+        "flatnavigation" : [
+            {
+                "showdivider": false,
+                "action": "#",
+                "isactive": true,
+                "get_indent": 1,
+                "is_section": false,
+                "text": "First"
+            },{
+                "showdivider": true,
+                "action": "#",
+                "isactive": false,
+                "get_indent": 0,
+                "is_section": true,
+                "text": "Last &amp; Second"
+            }
+        ]
+    }
+}}
+
+<li class="site-menu-item back-to-course">
+  <a href="{{ courseurl }}">
+    <i class="site-menu-icon fa-chevron-left" aria-hidden="true"></i>
+    <span class="site-menu-title">{{# str }} backtocourse, theme_remui {{/ str }}</span>
+  </a>
+</li>
+
+{{# activitysections }}
+    <li class="site-menu-item has-sub {{ open }} ">
+        <a href="javascript:void(0)" class="py-5">
+            <i class="site-menu-icon" style="font-style: normal;">{{ count }}.</i>
+            <span class="site-menu-title">{{ name }}</span>
+            <span class="site-menu-arrow"></span>
+        </a>
+
+        <ul class="site-menu-sub">
+            {{# activity_list }}
+                <li class="site-menu-item activity {{active}} {{ classes }}">
+                  {{{ title }}}
+                    <ul class="site-menu-sub">
+                        {{# chapter_list}}
+                            <li class="site-menu-item activity {{ chapter_classes }}">
+                                {{{ chapter_title }}}
+                                <ul class="site-menu-sub">
+                                    {{# subchapters }}
+                                        <li class="site-menu-item activity {{ sub_chapter_classes }}">
+                                            {{{ sub_chapter_title }}}
+                                        </li>
+                                    {{/ subchapters }}
+                                </ul>
+                            </li>
+                        {{/ chapter_list}}
+                    </ul>
+
+                </li>
+            {{/ activity_list }}
+        </ul>
+    </li>
+{{/ activitysections }}
+
+{{# addblock }}
+    <li class="site-menu-item py-20">
+        <a href="{{{action}}}" data-key="addblock">
+            <i class="site-menu-icon fa fa-plus-circle" aria-hidden="true"></i>
+        <span class="site-menu-title">{{{text}}}</span>
+        </a>
+    </li>
+{{/ addblock }}

@@ -1,0 +1,22 @@
+
+<div id="quiz_stats">
+  {{# has_courses_for_quiz }}
+    <div class="card card-shadow m-0">
+      <div class="widget-content tab-content bg-white p-20">
+        <select id="quiz-course-list" class="form-control mb-30">
+          {{# courses_for_quiz}}
+            <option data-id="{{ courseid }}">{{{ shortname }}}</option>
+          {{/ courses_for_quiz}}
+        </select>
+        <div id="quiz-chart-area">
+          <div class="chart">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+        <div class="quiz-stats-error alert alert-danger" style="display:none">
+          {{#str}}problemwhileloadingdata, theme_remui{{/str}}
+        </div>
+      </div>
+    </div>
+  {{/ has_courses_for_quiz }}
+</div>

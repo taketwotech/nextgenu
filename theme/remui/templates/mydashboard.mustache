@@ -1,0 +1,383 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_remui/columns2
+
+    Admin time setting template.
+
+    Boost 2 column layout template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * navdraweropen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "navdraweropen":true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false
+    }
+}}
+{{> theme_remui/common_start }}
+
+        <div class="page-main">
+        <div class="container">
+            {{{ output.full_header }}}
+            <div class="page-content">
+                <div id="region-main-box">
+                    {{#hasregionmainsettingsmenu}}
+                        <div id="region-main-settings-menu" class="hidden-print {{#hasblocks}}has-blocks{{/hasblocks}}">
+                            <div> {{{ output.region_main_settings_menu }}} </div>
+                        </div>
+                    {{/hasregionmainsettingsmenu}}
+                    <section id="region-main" {{#hasblocks}}class="has-blocks"{{/hasblocks}}>
+                        {{#hasregionmainsettingsmenu}}
+                            <div class="region_main_settings_menu_proxy"></div>
+                        {{/hasregionmainsettingsmenu}}
+
+                        {{{ output.course_content_header }}}
+                        {{{ output.main_content }}}
+                        {{{ output.course_content_footer }}}
+                    </section>
+                    <div class="clearfix"></div>
+                    {{#isTeacher}}
+                        <div class="w-full bg-white my-15 p-15">
+                        {{> theme_remui/dashboard_teacher_view_courses}}
+                        </div>
+                    {{/isTeacher}}
+
+                    
+                    {{# usercanmanage }}
+                        {{> theme_remui/stats }}
+                    {{/ usercanmanage }}
+                    
+                    {{# hasanalytics }}
+                        {{> theme_remui/course_analytics}}
+                    {{/ hasanalytics}}
+                    <ul class="blocks-sm-100 blocks-lg-2 blocks-sm-1">
+                        {{# usercanmanage }}
+                        <li id="membersli" class="col-sm-12 mb-0 float-left">
+                            {{> theme_remui/latest_members }}
+                        </li>
+                        <li id="notesli" class="col-sm-12 mb-0">
+                            {{> theme_remui/add_notes }}
+                        </li>
+                        {{/ usercanmanage }}
+                        <li class="col-sm-12 col-md-12 mb-0 w-full">
+                            {{> theme_remui/recent_section }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </div>
+    {{> theme_remui/common_end }}
+
+{{#js}}
+require(['theme_remui/loader', 'theme_remui/dashboard', 'theme_remui/slick', 'theme_remui/jquery.dataTables', 'theme_remui/dataTables.bootstrap4'], function () {
+    Breakpoints();
+    /**
+    * Timeline - Course Overview Block
+    */
+    var alreadyDone = false;
+    (function ($, sr) {
+        var debounce = function (func, threshold, execAsap) {
+            var timeout;
+            return function debounced() {
+                var obj = this, args = arguments;
+                function delayed() {
+                    if (!execAsap)
+                        func.apply(obj, args);
+                    timeout = null;
+                };
+                if (timeout) {clearTimeout(timeout);
+                } else if (execAsap) {func.apply(obj, args);}
+                timeout = setTimeout(delayed, threshold || 100);
+            };
+        }
+        jQuery.fn[sr] = function (fn) { return fn ? this.on('DOMNodeInserted', debounce(fn)) : this.trigger(sr); };
+    })(jQuery, 'debouncedDNI');
+
+    jQuery(document).ready(function () {
+        jQuery('#wdm-timeline-event').debouncedDNI(function () {
+            if (!alreadyDone) {
+                jQuery(this).find('#myoverview_today_view .carousel-item:first').addClass('active');
+                jQuery(this).find('#myoverview_future_view .carousel-item:first').addClass('active');
+                jQuery(this).find('#myoverview_overdue_view .carousel-item:first').addClass('active');
+
+                var today = jQuery(this).find('#myoverview_today_view .carousel-item');
+                jQuery(this).find('.today .badge.badge-pill').html(today.length);
+
+                var future = jQuery(this).find('#myoverview_future_view .carousel-item');
+                jQuery(this).find('.future .badge.badge-pill').html(future.length);
+
+                var overdue = jQuery(this).find('#myoverview_overdue_view .carousel-item');
+                jQuery(this).find('.overdue .badge.badge-pill').html(overdue.length);
+
+                jQuery(".carousel-inner > li.list-group-item.event-list-item").css("display", "none");
+                alreadyDone = true;
+            }
+        });
+    });
+
+    jQuery('#course-overview-section a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        jQuery('.wdm-overview-slider').slick('unslick');
+        jQuery('.wdm-overview-slider').slick({
+        dots: true,
+        arrows: true,
+        prevArrow:"<button type='button' class='slick-prev pull-left'><i class='fa fa-chevron-left' aria-hidden='true'></i></button>",
+        nextArrow:"<button type='button' class='slick-next pull-right'><i class='fa-arrow-circle-right' aria-hidden='true'></i></button>",
+        infinite: true,
+        opacity: 0,
+        rtl: (jQuery("html").attr("dir") == "rtl") ? true : false,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        responsive: [{
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3
+            }
+            }, {
+            breakpoint: 800,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+            }
+            }, {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+            }
+        ]
+    });
+    });
+
+    jQuery('.wdm-overview-slider').slick({
+        dots: true,
+        arrows: true,
+        prevArrow:"<button type='button' class='slick-prev pull-left'><i class='fa fa-chevron-left' aria-hidden='true'></i></button>",
+        nextArrow:"<button type='button' class='slick-next pull-right'><i class='fa-arrow-circle-right' aria-hidden='true'></i></button>",
+        infinite: true,
+        rtl: (jQuery("html").attr("dir") == "rtl") ? true : false,
+        opacity: 0,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        responsive: [{
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3
+            }
+            }, {
+            breakpoint: 800,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2
+            }
+            }, {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+            }
+            }
+        ]
+    });
+
+    jQuery('#recent-section .nav a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        jQuery('#recent-section .divScroll').each(function() {
+            jQuery(this).asScrollable('disable');
+            jQuery(this).asScrollable('enable');
+        });
+    });
+
+    //*****************
+    // This is code is for table creation on dashboard
+    // this code also toggles between course progress and student progress table
+    // Function createDatatable() creates course progress table
+
+
+    function createDatatable()
+    {
+        var data;
+
+        if ( $.fn.dataTable.isDataTable( '#DataTables_Teacher' ) ) {
+            data = $('#DataTables_Teacher').DataTable();
+        }
+        else {
+            data = $('#DataTables_Teacher').DataTable({
+                        "paging":   true,
+                        "retrieve": true,
+                        "pagingType": "simple_numbers",
+                        "lengthchange":false,
+                        "autoWidth": true,
+                        "scrollX": true,
+                        "search": "Fred",
+                        "lengthChange": false,
+                        "info":false,
+                        language: {
+                            searchPlaceholder: "Search"
+                        },
+                        responsive: true,
+                    });
+        }
+        {{! $('div.dataTables_filter input').addClass('form-control'); }}
+        {{! $('div.dataTables_length select').addClass('form-control'); }}
+        return data;
+    }
+    // call to the createDatatable for course progress
+    var teacherViewTable = createDatatable();
+
+    // Destroy the table and send ajax request
+    jQuery('body').on('click', '.wdm_course_name',function(){
+        console.log("we are at dynamic");
+        var courseid = $(this).data('courseid');
+        console.log(courseid);
+        teacherViewTable.destroy();
+        $('#DataTables_Teacher').hide();
+        getCourseProgressData(courseid);
+    });
+
+    // Restore the previous table
+    // $('#courserevertbtn').on( 'click', function () {
+    jQuery('body').on('click', '#courserevertbtn',function(){
+        courseProgressTable.destroy();
+        $('.student_progress_ele').empty();
+        $('#DataTables_Teacher').show();
+        teacherViewTable = createDatatable();
+    });
+
+    // This function will retrieve the student progress
+    var courseProgressTable;
+    function getCourseProgressData(courseid){
+
+        jQuery.ajax({
+            type: "GET",
+            async: true,
+            url: M.cfg.wwwroot + '/theme/remui/request_handler.php?action=get_course_progress_ajax&courseid=' + courseid,
+            success: function (response) {
+                $('div.student_progress_ele').empty();
+                $('div.student_progress_ele').append(response);
+
+                jQuery('.pie-progress').asPieProgress({
+                    namespace: 'pie-progress',
+                    speed: 30,
+                    classes: {
+                        svg: 'pie-progress-svg',
+                        element: 'pie-progress',
+                        number: 'pie-progress-number',
+                        content: 'pie-progress-content'
+                    }
+                });
+
+                courseProgressTable = $('#wdmCourseProgressTable').DataTable({
+                    "scrollY":        "300px",
+                    "scrollCollapse": true,
+                    "paging":false,
+                    "retrieve": true,
+                    "lengthchange":false,
+                    "autoWidth": true,
+                    "scrollX": true,
+                    "search": "Fred",
+                    "info":false,
+                    language: {
+                        searchPlaceholder: "Search"
+                    },
+                    responsive: true,
+                });
+
+                $('div.dataTables_filter input').addClass('form-control');
+                $('div.dataTables_length select').addClass('form-control');
+            },
+            error: function (xhr, status, error) {
+                console.log("we are not here ");
+                jQuery('div#analysis-chart-area').hide();
+            }
+        });
+
+    }
+
+
+    //******************
+    // This block opens modal and sends message to user
+
+    jQuery('body').on('click', '.custom-message',function(){
+        var studentid = jQuery(this).data('studentid');
+        console.log(studentid);
+        jQuery('#messageidhidden').val(studentid);
+    });
+
+    jQuery('body').on('click', '.send-message',function(){
+        var studentid = jQuery('#messageidhidden').val();
+        var message   = jQuery('#messagearea').val();
+
+        if(message != '') {
+            sendMessageToUser(studentid, message);
+        } else {
+            jQuery('#messagearea').focus();
+        }
+    });
+
+
+
+    function sendMessageToUser(studentid, message){
+
+        jQuery.ajax({
+            type: "GET",
+            async: true,
+            url: M.cfg.wwwroot + '/theme/remui/request_handler.php?action=send_message_user_ajax&studentid=' + studentid +'&message='+message,
+            success: function (response) {
+                clearModalFields();
+                jQuery('.close-message').click();
+            },
+            error: function (xhr, status, error) {
+                jQuery('div#analysis-chart-area').hide();
+            }
+        });
+
+    }
+
+
+    function clearModalFields()
+    {
+        jQuery('#messageidhidden').val('');
+        jQuery('#messagearea').val('');
+    }
+    //***********************************
+});
+{{/js}}

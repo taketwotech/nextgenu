@@ -1,0 +1,108 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_remui/maintenance
+
+    Boost maintenance layout template.
+
+    Context variables required for this template:
+    * output - The core renderer for the page
+
+    Example context (json):
+    {
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         }
+    }
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}" />
+    {{{ output.standard_head_html }}}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .admin.pagelayout-maintenance .page-copyright {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body {{{ bodyattributes }}}>
+    {{{ output.standard_top_of_body_html }}}
+
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Page -->
+    <div class="page vertical-align text-center">
+        <div class="page-content vertical-align-middle">
+            <i class="fa fa-cog icon-spin page-maintenance-icon font-size-60" aria-hidden="true"></i>
+            <section id="region-main">
+                {{{ output.main_content }}}
+            </section>
+
+            <footer class="page-copyright">
+                {{# footerdata }}
+                {{# social }}
+                <p>{{# str }} followus, theme_remui {{/ str }}</p>
+                <div class="social">
+                    {{# facebook }}
+                        <a href="{{ facebook }}" class="btn btn-icon btn-round social-facebook m-5"><i class="icon fa-facebook text-white" aria-hidden="true"></i></a>
+                    {{/ facebook }}
+                    {{# twitter }}
+                        <a href="{{ twitter }}" class="btn btn-icon btn-round social-twitter m-5"><i class="icon fa-twitter text-white" aria-hidden="true"></i></a>
+                    {{/ twitter }}
+                    {{# linkedin }}
+                        <a href="{{ linkedin }}" class="btn btn-icon btn-round social-linkedin m-5"><i class="icon fa-linkedin text-white" aria-hidden="true"></i></a>
+                    {{/ linkedin }}
+                    {{# gplus }}
+                        <a href="{{ gplus }}" class="btn btn-icon btn-round social-google-plus m-5"><i class="icon fa-google-plus text-white" aria-hidden="true"></i></a>
+                    {{/ gplus }}
+                    {{# instagram }}
+                        <a href="{{ instagram }}" class="btn btn-icon btn-round social-instagram m-5"><i class="icon fa-instagram text-white" aria-hidden="true"></i></a>
+                    {{/ instagram }}
+                    {{# youtube }}
+                        <a href="{{ youtube }}" class="btn btn-icon btn-round social-youtube m-5"><i class="icon fa-youtube text-white" aria-hidden="true"></i></a>
+                    {{/ youtube }}
+                    {{# pinterest }}
+                        <a href="{{ pinterest }}" class="btn btn-icon btn-round social-pinterest m-5"><i class="icon fa-pinterest text-white" aria-hidden="true"></i></a>
+                    {{/ pinterest }}
+                </div>
+                {{/ social }}
+                {{/ footerdata }}
+            </footer>
+        </div>
+    </div>
+    <!-- End Page -->
+
+    <footer id="page-footer">
+        <div class="container">
+            {{{ output.standard_footer_html }}}
+            {{{ output.standard_end_of_body_html }}}
+        </div>
+    </footer>
+</body>
+</html>
+{{#js}}
+require(['theme_remui/loader']);
+{{/js}}

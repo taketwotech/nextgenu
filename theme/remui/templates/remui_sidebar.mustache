@@ -1,0 +1,234 @@
+
+<ul class="site-sidebar-nav nav nav-tabs nav-tabs-line" role="tablist">
+  {{# messaging_on }}
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#sidebar-userlist" role="tab">
+      <i class="icon fa fa-comment" aria-hidden="true"></i>
+    </a>
+  </li>
+  {{/ messaging_on }}
+  <li class="nav-item">
+    <a class="nav-link {{^ messaging_on }}active{{/ messaging_on }}" data-toggle="tab" href="#sidebar-activity" role="tab">
+      <i class="icon fa fa-calendar " aria-hidden="true"></i>
+    </a>
+  </li>
+  {{# usercanmanage }}
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#sidebar-setting" role="tab">
+      <i class="icon fa-paint-brush" aria-hidden="true"></i>
+    </a>
+  </li>
+  {{/ usercanmanage }}
+</ul>
+
+<div class="site-sidebar-tab-content tab-content">
+
+  {{# messaging_on }}
+  <div class="tab-pane fade active show" id="sidebar-userlist">
+    <div>
+      <div>
+        <h5 class="clearfix">{{#str}}contacts, theme_remui{{/str}}
+          <div class="float-right hidden-xs-up">
+            <a class="text-action" href="javascript:void(0)" role="button">
+              <i class="icon fa fa-plus" aria-hidden="true"></i>
+            </a>
+            <a class="text-action" href="javascript:void(0)" role="button">
+              <i class="icon fa fa-ellipsis-h" aria-hidden="true"></i>
+            </a>
+          </div>
+        </h5>
+        <form class="my-20 hidden-xs-up" role="search">
+          <div class="input-search input-search-dark">
+            <i class="input-search-icon fa fa-search" aria-hidden="true"></i>
+            <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Search Pages">
+            <button type="button" class="input-search-close icon fa fa-times" aria-label="Close"></button>
+          </div>
+        </form>
+
+        <div class="list-group">
+          {{# contacts }}
+            {{# online }}
+              <a class="list-group-item" href="javascript:void(0)" data-toggle="show-chat" data-otheruserid="{{ id }}">
+                <div class="media">
+                  <div class="pr-20">
+                    <div class="avatar avatar-sm avatar-online">
+                      <img src="{{ profileimageurlsmall }}" alt="..." />
+                      <i></i>
+                    </div>
+                  </div>
+                  <div class="media-body">
+                    <h5 class="mt-0 mb-5">{{ fullname }}</h5>
+                    {{# unread }}
+                    <small>{{ unread }} unread message(s)</small>
+                    {{/ unread }}
+                    {{^ unread }}
+                    <small>No unread message(s)</small>
+                    {{/ unread }}
+                  </div>
+                </div>
+              </a>
+            {{/ online }}
+            {{# offline }}
+              <a class="list-group-item" href="javascript:void(0)" data-toggle="show-chat" data-otheruserid="{{ id }}">
+                <div class="media">
+                  <div class="pr-20">
+                    <div class="avatar avatar-sm avatar-off">
+                      <img src="{{ profileimageurlsmall }}" alt="..." />
+                      <i></i>
+                    </div>
+                  </div>
+                  <div class="media-body">
+                    <h5 class="mt-0 mb-5">{{ fullname }}</h5>
+                    {{# unread }}
+                    <small>{{ unread }} unread message(s)</small>
+                    {{/ unread }}
+                    {{^ unread }}
+                    <small>No unread message(s)</small>
+                    {{/ unread }}
+                  </div>
+                </div>
+              </a>
+            {{/ offline }}
+          {{/ contacts }}
+        </div>
+
+      </div>
+    </div>
+  </div>
+  {{/ messaging_on }}
+
+  <div class="tab-pane fade {{^ messaging_on }}active show{{/ messaging_on }}" id="sidebar-activity">
+    <div>
+      <div>
+        <h5>{{#str}}upcomingevents, theme_remui{{/str}}</h5>
+        <ul class="{{# upevents }}timeline {{/ upevents }}timeline-icon timeline-single timeline-simple timeline-feed">
+          {{# upevents }}
+            <li class="timeline-item">
+              <div class="timeline-dot bg-primary">
+                <i class="icon fa fa-calendar " aria-hidden="true"></i>
+              </div>
+              <div class="timeline-content">
+                <small>
+                  <time datetime="2015-07-08">{{{ formattedtime }}}</time>
+                </small>
+                <p>{{ name }}</p>
+              </div>
+            </li>
+          {{/ upevents }}
+          {{^ upevents }}
+            <li class="timeline-item">
+              <div class="timeline-content">
+                <p>No upcoming events !</p>
+              </div>
+            </li>
+          {{/ upevents }}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {{# usercanmanage }}
+  <div class="tab-pane fade" id="sidebar-setting">
+    <div>
+      <div class="site-skintools">
+
+          <!-- navbr type -->
+          <h5 class="site-skintools-title">{{#str}}navbartype, theme_remui{{/str}}</h5>
+          <div id="skintoolsNavbar">
+            <div class="checkbox-custom checkbox-inverse">
+              <input id="skintoolsNavbar-inverse" name="navbartype" type="checkbox" value="navbar-inverse" {{# navbarinverse }} checked {{/ navbarinverse }}><label for="skintoolsNavbar-inverse">Inverse</label>
+            </div>
+          </div>
+
+          <!-- sidebar color -->
+          <div id="skintoolsSidebar">
+            <h5 class="site-skintools-title">{{#str}}sidebarcolor, theme_remui{{/str}}</h5>
+            <div class="radio-custom radio-dark">
+              <input id="skintoolsSidebar-dark" type="radio" name="skintoolsSidebar" value="" checked><label for="skintoolsSidebar-dark">Dark</label>
+            </div>
+            <div class="radio-custom radio-light">
+                <input id="skintoolsSidebar-light" type="radio" name="skintoolsSidebar" value="site-menubar-light" {{# sidebarcolor }} checked {{/sidebarcolor }}><label for="skintoolsSidebar-light">Light</label>
+            </div>
+          </div>
+
+          <!-- site color -->
+          <div id="skintoolsSiteColor">
+            <h5 class="site-skintools-title">{{#str}}sitecolor, theme_remui{{/str}}</h5>
+            <div class="radio-custom radio-primary">
+              <input id="skintoolsNavbar-primary" name="skintoolsNavbar" type="radio" value="primary" {{# primary }} checked {{/ primary }}><label for="skintoolsNavbar-primary">primary</label>
+            </div>
+            <div class="radio-custom radio-brown">
+              <input id="skintoolsNavbar-brown" name="skintoolsNavbar" type="radio" value="brown" {{# brown }} checked {{/ brown }}><label for="skintoolsNavbar-brown">brown</label>
+            </div>
+            <div class="radio-custom radio-cyan">
+              <input id="skintoolsNavbar-cyan" name="skintoolsNavbar" type="radio" value="cyan" {{# cyan }} checked {{/ cyan }}><label for="skintoolsNavbar-cyan">cyan</label>
+            </div>
+            <div class="radio-custom radio-green">
+              <input id="skintoolsNavbar-green" name="skintoolsNavbar" type="radio" value="green" {{# green }} checked {{/ green }}><label for="skintoolsNavbar-green">green</label>
+            </div>
+            <div class="radio-custom radio-grey">
+              <input id="skintoolsNavbar-grey" name="skintoolsNavbar" type="radio" value="grey" {{# grey }} checked {{/ grey }}><label for="skintoolsNavbar-grey">grey</label>
+            </div>
+            <div class="radio-custom radio-indigo">
+              <input id="skintoolsNavbar-indigo" name="skintoolsNavbar" type="radio" value="indigo" {{# indigo }} checked {{/ indigo }}><label for="skintoolsNavbar-indigo">indigo</label>
+            </div>
+            <div class="radio-custom radio-orange">
+              <input id="skintoolsNavbar-orange" name="skintoolsNavbar" type="radio" value="orange" {{# orange }} checked {{/ orange }}><label for="skintoolsNavbar-orange">orange</label>
+            </div>
+            <div class="radio-custom radio-pink">
+              <input id="skintoolsNavbar-pink" name="skintoolsNavbar" type="radio" value="pink" {{# pink }} checked {{/ pink }}><label for="skintoolsNavbar-pink">pink</label>
+            </div>
+            <div class="radio-custom radio-purple">
+              <input id="skintoolsNavbar-purple" name="skintoolsNavbar" type="radio" value="purple" {{# purple }} checked {{/ purple }}><label for="skintoolsNavbar-purple">purple</label>
+            </div>
+            <div class="radio-custom radio-red">
+              <input id="skintoolsNavbar-red" name="skintoolsNavbar" type="radio" value="red" {{# red }} checked {{/ red }}><label for="skintoolsNavbar-red">red</label>
+            </div>
+            <div class="radio-custom radio-teal">
+              <input id="skintoolsNavbar-teal" name="skintoolsNavbar" type="radio" value="teal" {{# teal }} checked {{/ teal }}><label for="skintoolsNavbar-teal">teal</label>
+            </div>
+            <!--<div class="radio-custom radio-yellow">
+              <input id="skintoolsNavbar-yellow" name="skintoolsNavbar" type="radio" value="yellow" {{# yellow }} checked {{/ yellow }}><label for="skintoolsNavbar-yellow">yellow</label>
+            </div> -->
+            <div class="radio-custom radio-customcolor">
+              <input id="skintoolsNavbar-customcolor" name="skintoolsNavbar" type="radio" value="customcolor" {{# customcolor }} checked {{/ customcolor }}><label for="skintoolsNavbar-customcolor">Custom Color</label>
+            </div>
+          </div>
+
+          <!-- site color picker-->
+          <form method="post" class="text-center">
+            <input type="color" name="customcolor" class="site-colorpicker w-full bg-white border-0 h-40" style="display:none; {{# customcolor }}display:inherit;{{/ customcolor }}" value="#62a8ea">
+            <input type="hidden" name="choosen-color">
+            <input type="hidden" name="sesskey" value="{{ sesskey }}">
+            <input type="submit" name="applysitewidecolor" class="btn btn-default my-10" value="{{#str}} applysitewide, theme_remui {{/ str }}">
+          </form>
+      </div>
+    </div>
+  </div>
+  {{/ usercanmanage }}
+</div>
+
+<div id="conversation" class="conversation">
+  <div class="conversation-header">
+    <a class="conversation-return float-left" href="javascript:void(0)" data-toggle="close-chat">
+      <i class="icon fa-chevron-left" aria-hidden="true"></i>
+    </a>
+    <a class="conversation-more float-right" href="javascript:void(0)">
+      <i class="icon fa fa-circle font-size-10" aria-hidden="true"></i>
+    </a>
+    <div class="conversation-title"></div>
+  </div>
+  <input type="hidden" name="messagenotsent" id="messagenotsent" value="{{#str}}messagenotsent, theme_remui{{/str}}">
+  <div class="chats pb-15 pt-0">
+    
+  </div>
+  <div class="conversation-reply px-15">
+    <div class="alert text-center fixed-top hidden" id="message_response"></div>
+    <div class="input-group">
+      <input class="form-control pr-35" type="text" placeholder="Say something">
+      <span class="input-group-btn pl-15">
+        <a href="javascript: void(0)" class="btn btn-pure btn-default icon fa-chevron-right sidebar-send-message"></a>
+      </span>
+    </div>
+  </div>
+</div>

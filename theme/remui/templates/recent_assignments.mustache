@@ -1,0 +1,68 @@
+
+<div id="recent_assignments">
+  {{# hasrecentassignments }}
+    <div class="card card-shadow mh-100 mx-0" data-name="recentassignments" style="overflow-y: hidden;">
+      <div class="divScroll">
+      <div data-role="container" class="h-300 mb-20">
+      <div data-role="content">
+      <div class="widget-content tab-content bg-white p-20">
+      {{# recentassignments }}
+        <a href="{{ cm_url }}" class="list-group-item">
+          <span>
+            {{#str}}activity, moodle{{/str}} : {{{ cm_name }}}
+          </span>
+          <br>
+          <span class="text-muted">
+            {{#str}}course, moodle{{/str}} : {{{ course_fullname }}}
+          </span>
+        </a>
+      {{/ recentassignments }}
+      </div>
+      </div>
+      </div>
+      </div>
+    </div>
+  {{/ hasrecentassignments }}
+  {{^ hasrecentassignments }}
+    <div class="card card-shadow mh-100 mx-0" data-name="recentfeedback" style="overflow-y: hidden;">
+      {{# hasrecentfeedback }}
+      <div class="divScroll">
+      <div data-role="container" class="h-300 mb-20">
+      <div data-role="content">
+      <div class="box-body table-responsive px-15">
+        <table class="table table-hover">
+          <tbody>
+            <tr>
+              <th>{{#str}}course, moodle{{/str}}</th>
+              <th>{{#str}}activity, moodle{{/str}}</th>
+              <th>{{#str}}grade ,moodle{{/str}}</th>
+              <th>{{#str}}time, moodle{{/str}}</th>
+            </tr>
+            {{# recentfeedback }}
+            <tr>
+              <td><a href="{{ courseurl }}" style="text-decoration: none;">{{ course_shortname }}</a></td>
+              <td><a href="{{ assignurl }}" style="text-decoration: none;">{{ grade_itemname }}</a></td>
+              <td>{{ grade_rawgrade }} / {{ grade_rawgrademax }}</td>
+              <td>
+                <span class="text-info">
+                  <i class="fa fa-clock-o"></i>
+                  {{#userdate}} {{ timemodified }}, %d %B %Y, %I:%M %p {{/userdate}}
+                </span>
+              </td>
+            </tr>
+            {{/ recentfeedback }}
+          </tbody>
+        </table>
+      </div>
+      </div>
+      </div>
+      </div>
+      {{/ hasrecentfeedback }}
+      {{^ hasrecentfeedback }}
+        <div class="widget-content tab-content bg-white p-20">
+          {{#str}}norecentfeedback, theme_remui{{/str}}
+        </div>
+      {{/ hasrecentfeedback }}
+    </div>
+  {{/ hasrecentassignments }}
+</div>

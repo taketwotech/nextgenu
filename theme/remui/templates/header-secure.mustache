@@ -1,0 +1,64 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+
+<!-- navbar-inverse -->
+<nav class="site-navbar navbar navbar-default navbar-fixed-top moodle-has-zindex {{ navbarinverse }} {{# sitecolor }} bg-{{sitecolor}}-600 {{/ sitecolor }}" role="navigation">
+    <div class="navbar-header" style="height: 66px;">
+      <div class="navbar-brand navbar-brand-center p-0">
+        {{# output.should_display_logo }}
+          {{# isiconsitename }}
+            <a class="text-white text-center d-block h-full" style="line-height:66px;" href="{{{ config.wwwroot }}}">
+              <span class="navbar-brand-logo hfull w-full d-inline-block">
+                  <i class="fa fa-{{siteicon}}"></i>
+                  {{{ sitename }}}
+              </span>
+            </a>
+          {{/ isiconsitename }}
+          
+          {{# islogo }}
+            <a class="text-white text-center d-block h-full" href="{{{ config.wwwroot }}}">
+              <span class="navbar-brand-logo h-full w-full d-inline-block" style="background-image: url({{ logourl }});
+                    background-position: center; background-size: contain; background-repeat: no-repeat;">
+              </span>
+            </a>
+          {{/ islogo }}
+        {{/ output.should_display_logo }}
+      </div>
+    </div>
+    <div class="navbar-container container-fluid m-0" style="-ms-flex:1 1 0%;">
+
+      <!-- Navbar Collapse -->
+      <div class="collapse navbar-collapse navbar-collapse-toolbar" id="site-navbar-collapse">
+
+        <!-- Navbar Toolbar -->
+        <ul class="nav navbar-toolbar">
+          <li class="nav-item hidden-sm-down" id="toggleFullscreen">
+            <a class="nav-link icon icon-fullscreen" data-toggle="fullscreen" href="#" role="button">
+              <span class="sr-only">{{#str}}togglefullscreen, theme_remui{{/str}}</span>
+            </a>
+          </li>
+        
+          <li class="nav-item text-white px-15" style="line-height: 66px;">
+            {{{ output.secure_login_info }}}
+          </li>
+        </ul>
+        <!-- End Navbar Toolbar -->
+        
+      </div>
+      <!-- End Navbar Collapse -->
+    </div>
+  </nav>

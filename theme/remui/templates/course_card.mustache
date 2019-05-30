@@ -1,0 +1,49 @@
+
+<div class="col-12 col-sm-6 {{viewClasses}} d-sm-flex">
+    <div class="card w-full rounded-bottom">
+        <!--<img class="card-img-top" src="{{ courseimage }}" alt="{{ coursename }}">-->
+         <div class="img-container">
+         <a href="{{ courseurl }}">
+        <div class="h-200 rounded-top" style="background-image: url('{{ courseimage }}');background-size: cover;background-position: center; position: relative;"></div></a>
+
+        {{# instructors }}
+        <a href="{{ url }}" class="d-block instructor-img {{ imgStyle }}" data-toggle="tooltip" title="{{ name }}">
+            <img src="{{ picture }}" style="border: 2px solid white; cursor: pointer;" class="h-50 w-50 rounded-circle" alt="{{ name }}" />
+        </a>
+        {{/ instructors }}
+        </div>
+        <div class="card-block">
+            <h4 class="card-title mt-10"><a href="{{ courseurl }}" class="font-weight-400 blue-grey-600 font-size-18">{{{ coursename }}}</a></h4>
+            <p class="card-text"><span class="text-muted">{{{ categoryname }}}</span></p>
+            <p class="card-text">{{{ coursesummary }}}</p>
+        </div>
+            {{# usercanmanage }}
+                <div class="card-footer card-footer-transparent text-muted activity-btn {{listbuttons}}">
+                    <div class="enrolmenticons">
+                        {{{ enrollmenticons }}}
+                    </div>
+
+                    <button type="button"
+                        class="btn btn-icon btn-outline btn-sm btn-primary btn-round float-right showoptions"
+                        data-plugin="toolbar"
+                        data-toolbar="#course-{{ courseid }}-options">
+                        <i class="icon fa fa-cog" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="toolbar-icons tool-items toolbar-primary" id="course-{{ courseid }}-options" hidden="">
+                    <a href="{{ enrollusers }}" class="tool-item" title="{{# str }} enroluser, theme_remui {{/ str }}"><i class="icon fa fa-users" aria-hidden="true"></i></a>
+                    <a href="{{ grader }}" class="tool-item" title="{{# str }} graderreport, theme_remui {{/ str }}"><i class="icon fa fa-star" aria-hidden="true"></i></a>
+                    <a href="{{ activity }}" class="tool-item" title="{{# str }} activityeport, theme_remui {{/ str }}"><i class="icon fa fa-pie-chart" aria-hidden="true"></i></a>
+                    <a href="{{ editcourse }}" class="tool-item" title="{{# str }} editcourse, theme_remui {{/ str }}"><i class="icon fa fa-edit" aria-hidden="true"></i></a>
+                </div>
+            {{/ usercanmanage }}
+
+            {{^ usercanmanage }}
+                <div class="card-footer card-footer-transparent text-muted">
+                    <div class="enrolmenticons">
+                        {{{ enrollmenticons }}}
+                    </div>
+                </div>
+            {{/ usercanmanage }}
+    </div>
+</div>

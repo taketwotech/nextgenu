@@ -1,0 +1,43 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+
+<tr role="row" class="odd h-50">
+    <td class="w-50" tabindex="0">{{index}}</td>
+    {{^NoEnrollment}}
+        <td class="wdm_course_name" data-courseid="{{id}}"><a href="javascript:void(0)">{{fullname}}</a></td>
+    {{/NoEnrollment}}
+    {{#NoEnrollment}}
+        <td data-courseid="{{id}}" >{{fullname}}</td>
+    {{/NoEnrollment}}
+    <td>{{startdate}}</td>
+    <td class="w-100"><span class="w-full pl-40">{{enrolledStudents}}</span></td>
+    <!--<td class="">
+        <div class="progress-xs mb-0 bg-blue-grey-300 w-p75" style=" height:10px;">
+            <div class="progress-bar progress-bar-warning progress-bar-indicating active" style="width: %;" role="progressbar">
+            </div>
+        </div>
+        <span class="float-right progress-percent text-center" style="margin-top: -17px;">{{percentage}}%</span>
+    </td>-->
+    <td class=" w-100 px-10">
+        <div class="pie-progress pie-progress-xs m-0 w-35" data-plugin="pieProgress" data-valuemax="50" data-barcolor="#57c7d4" data-size="20" data-barsize="3" data-goal="35" aria-valuenow="{{percentage}}" role="progressbar" style="max-width: 35px!important;">
+        <div class="pie-progress-content" style="z-index:2;">
+        </div>
+        <span class=" progress-percent" style="margin-left: 50px;position: absolute;top: 8px;">{{percentage}}%</span>
+        </div>
+    </td>
+</tr>
+

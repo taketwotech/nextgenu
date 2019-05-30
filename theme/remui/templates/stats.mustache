@@ -1,0 +1,28 @@
+
+<div id="stats">
+  {{# is_siteadmin }}
+    <div class="card card-shadow" style="clear: both;">
+      <div class="card-header card-header-transparent pt-20 pb-0">
+        <!-- <label id="stats_name" class="font-weight-600 blue-grey-600 float-right">{{#str}}enrolleduserstats, theme_remui{{/str}}</label> -->
+        <ul class="nav nav-tabs nav-tabs-line border-0 chart-action float-left" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a id="stats_name_one" class="nav-link active" data-toggle="tab" href="#statsOne" aria-controls="statsOne" role="tab"><i class="fa fa-pie-chart"></i> {{#str}}enrolleduserstats, theme_remui{{/str}}</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a id="stats_name_two" class="nav-link" data-toggle="tab" href="#statsTwo" aria-controls="statsTwo" role="tab"><i class="fa fa-bar-chart"></i> {{#str}}quizstats, theme_remui{{/str}}</a>
+          </li>
+        </ul>
+      </div>
+      <div class="widget-content tab-content bg-white px-20 pt-0 pb-20" data-plugin="tabs">
+        <div class="tab-content">
+          <div class="tab-pane active" id="statsOne">
+            {{> theme_remui/enrolled_users_stats }}
+          </div>
+          <div class="tab-pane" id="statsTwo">
+            {{> theme_remui/quiz_stats }}
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/ is_siteadmin }}
+</div>

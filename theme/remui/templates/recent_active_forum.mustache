@@ -1,0 +1,46 @@
+
+<div id="recent_active_forum" class="col-md-12 p-0">
+    <div class="card card-shadow mh-100 mx-0 {{# hasrecentforums}}px-20 pb-20{{/ hasrecentforums}}{{^ hasrecentforums}}p-20{{/ hasrecentforums}}" style="overflow-y: hidden;">
+      {{# hasrecentforums}}
+      <div class="divScroll">
+      <div data-role="container" class="h-300">
+      <div data-role="content">
+      <div class="widget-content tab-content bg-white">
+      <div class="box-body table-responsive">
+        <table class="table table-hover">
+            <tbody>
+              <tr>
+                <th>{{#str}}discussion, forum{{/str}}</th>
+                <th>{{#str}}activity, moodle{{/str}}</th>
+                <th>{{#str}}users, moodle{{/str}}</th>
+                <th>{{#str}}replies, forum{{/str}}</th>
+                <th>{{#str}}lastpost, forum{{/str}}</th>
+              </tr>
+              {{# recentforums }}
+                 <tr class='clickable-row' data-href= ''>
+                    <td><a href = "{{# content }}{{ config.wwwroot }}/mod/forum/discuss.php?d={{ discussion }}#p{{ id }}{{/ content }}" style="text-decoration: none;">{{ content.subject }}</a></td>
+                    <td><a href="{{ config.wwwroot }}/mod/forum/view.php?id={{ cmid }}" style="text-decoration: none;">{{ courseshortname }} / {{ forumname }}</a></td>
+                    <td style ="width:20%;">
+                    {{# recentuser}}
+                        <a href="{{ config.wwwroot }}/user/profile.php?id={{ id }}" style="text-decoration: none;">
+                        <img src="{{ profilepicture }}" class="avatar" alt="#">
+                        </a>
+                    {{/ recentuser}}
+                  </td>
+                  <td>{{ replies }}</td>
+                  <td> <a href="{{ config.wwwroot }}/user/profile.php?id={{ user.id }}" style="text-decoration: none;">{{ user.firstname }} {{ user.lastname }}</a></br>{{#userdate}} {{ timestamp }}, %A, %d %B %Y {{/userdate}}</td>
+                </tr>
+              {{/ recentforums }}
+            </tbody>
+        </table>
+      </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      {{/ hasrecentforums}}  
+      {{^ hasrecentforums }}
+          {{#str}}norecentlyactiveforums, theme_remui{{/str}}
+      {{/ hasrecentforums }}
+    </div>
+</div>

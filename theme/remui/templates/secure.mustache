@@ -1,0 +1,105 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_remui/secure
+
+    Boost secure layout template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+
+      Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         }
+    }
+}}
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}" />
+    {{{ output.standard_head_html }}}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+</head>
+
+<body {{{ bodyattributes }}}>
+{{{ output.standard_top_of_body_html }}}
+
+    {{>theme_remui/header-secure}}
+
+    <div class="page">
+        <!-- blocks aside -->
+        {{#hasblocks}}
+        <div class="page-aside-switch-lg hidden-sm-down">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+        </div>
+        <div class="page-aside d-0">
+            <div class="page-aside-switch">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+            </div>
+            <div class="page-aside-inner page-aside-scroll">
+                <div data-role="container">
+                    <div data-role="content">
+                        {{{ sidepreblocks }}}
+                    </div>
+                </div>
+            </div>
+            <!---page-aside-inner-->
+        </div>
+        {{/ hasblocks}}
+        <!-- end blocks aside -->
+
+        <div class="page-main">
+        <div class="container">
+            <div class="page-header">
+                {{{ output.page_heading }}}
+            </div>
+
+            <div class="page-content">
+            <div class="panel">
+                <div class="panel-body">
+                <div id="region-main-box">
+                    <section id="region-main" class="float-none">
+                        {{{ output.course_content_header }}}
+                        {{{ output.main_content }}}
+                        {{{ output.course_content_footer }}}
+                    </section>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+    </div>
+
+    {{> theme_remui/footer }}
+</body>
+</html>
+{{#js}}
+require(['theme_remui/loader']);
+{{/js}}

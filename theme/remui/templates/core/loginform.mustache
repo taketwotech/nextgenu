@@ -1,0 +1,281 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template core/login
+
+    Moodle template for the login page.
+
+    Context variables required for this template:
+    * autofocusform: Auto focus on form ?,
+    * canloginasguest - Is guest login allowed?,
+    * canloginbyemail - Is login by email allowed?,
+    * cansignup - Signup allowed?,
+    * cookieshelpicon - cookies help icon details
+    * error - Any errors in the form?,
+    * forgotpasswordurl - Forgot password url,
+    * hasidentityproviders - Flag, set to true to hide identity providers,
+    * hasinstructions - Flag, set to true to show instructions,
+    * identityproviders - List of identiy providers,
+    * instructions - Instructions,
+    * instructionsformat - Format of instructions,
+    * loginurl - Login url,
+    * rememberusername - Remeber username?,
+    * signupurl - Signup url,
+    * cookieshelpiconformatted - Formatted html of cookies help icon,
+    * errorformatted - Formatted error,
+    * logourl - Flag, logo url,
+    * sitename - Name of site.
+
+    Example context (json):
+    {
+        "autofocusform": false,
+        "canloginasguest": "1",
+        "canloginbyemail": false,
+        "cansignup": true,
+        "cookieshelpicon": {
+            "heading": "Cookies must be enabled in your browser",
+            "text": "<div class=\"no-overflow\">Two cookies are used on this site. Both died..</div>",
+            "icon": {
+                "attributes": [
+                    {
+                        "name": "class",
+                        "value": "iconhelp"
+                    },
+                    {
+                        "name": "alt",
+                        "value": "Help with Cookies must be enabled in your browser"
+                    },
+                    {
+                        "name": "title",
+                        "value": "Help with Cookies must be enabled in your browser"
+                    },
+                    {
+                        "name": "src",
+                        "value": "http://localhost/stable_master/theme/image.php?theme=remui&component=core&image=help"
+                    }
+                ]
+            },
+            "linktext": null,
+            "title": "Help with Cookies must be enabled in your browser",
+            "url": "http://localhost/stable_master/help.php?component=core&identifier=cookiesenabled&lang=en",
+            "ltr": true
+        },
+        "error": "",
+        "forgotpasswordurl": "http://localhost/stable_master/login/forgot_password.php",
+        "hasidentityproviders": false,
+        "hasinstructions": true,
+        "identityproviders": [],
+        "instructions": "For full access to this site, you first need to create an account.",
+        "instructionsformat": "1",
+        "loginurl": "http://localhost/stable_master/login/index.php",
+        "rememberusername": true,
+        "signupurl": "http://localhost/stable_master/login/signup.php",
+        "cookieshelpiconformatted": "",
+        "errorformatted": "",
+        "logourl": false,
+        "sitename": "Beer & Chips"
+    }
+}}
+
+<div class="page-brand-info">
+    {{^logopos}}
+        <div class="brand">
+            {{# loginpage_context }}
+                {{# isiconsitename }}
+                    <h3 class="brand-text font-size-40">
+                        <i class="fa fa-{{siteicon}}"></i> {{{ sitename }}}
+                    </h3>
+                {{/ isiconsitename }}
+              
+                {{# islogo }}
+                    <img src="{{logourl}}" class="brand-img w-350" title="{{sitename}}" alt="{{sitename}}"/>
+                {{/ islogo }}
+            {{/ loginpage_context }}
+        </div>
+    {{/logopos}}
+
+    {{#sitedesc}}
+        <p class="font-size-20">{{{sitedesc}}}</p>
+    {{/sitedesc}}
+
+    {{^sitedesc}}
+        {{#hasinstructions}}
+        <p class="font-size-20">{{{instructions}}}</p>
+        {{/hasinstructions}}
+    {{/sitedesc}}
+</div>
+
+<div class="page-login-main animation-slide-right animation-duration-1">
+
+    {{#cansignup}}
+        <div class="sr-only">
+            <a href="{{signupurl}}">{{#str}} tocreatenewaccount {{/str}}</a>
+        </div>
+    {{/cansignup}}
+
+    {{#error}}
+        <div class="loginerrors mt-1">
+            <div class="alert alert-icon alert-danger alert-dismissible" role="alert">
+                <a href="#" id="loginerrormessage" class="accesshide">{{error}}</a>
+                <i class="icon fa fa-times" aria-hidden="true"></i>{{error}}
+            </div>
+        </div>
+    {{/error}}
+
+    <div class="brand {{^logopos}}hidden-md-up{{/logopos}} text-center">
+        {{# loginpage_context }}
+          {{# isiconsitename }}
+              <h3 class="font-size-24">
+                  <i class="fa fa-{{siteicon}}"></i> {{{ sitename }}}
+              </h3>
+          {{/ isiconsitename }}
+          
+          {{# islogo }}
+              <img src="{{logourl}}" class="brand-img w-p100" title="{{sitename}}" alt="{{sitename}}"/>
+          {{/ islogo }}
+        {{/ loginpage_context }}
+    </div>
+
+    <h3 class="font-size-24">{{# str }} signin, theme_remui {{/ str }}</h3>
+
+    <form class="w-p100" action="{{loginurl}}" method="post" id="login">
+        <input id="anchor" type="hidden" name="anchor" value="">
+        <script>document.getElementById('anchor').value = location.hash;</script>
+    
+        <div class="form-group">
+            <label for="username" class="sr-only">
+                {{^canloginbyemail}}
+                    {{#str}} username {{/str}}
+                {{/canloginbyemail}}
+                {{#canloginbyemail}}
+                    {{#str}} usernameemail {{/str}}
+                {{/canloginbyemail}}
+            </label>
+
+            <input type="text" class="form-control" id="username" name="username" placeholder={{#quote}}{{^canloginbyemail}}{{#str}}username{{/str}}{{/canloginbyemail}}{{#canloginbyemail}}{{#str}}usernameemail{{/str}}{{/canloginbyemail}}{{/quote}}>
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="sr-only">{{#str}} password {{/str}}</label>
+            <input type="password" name="password" id="password" value="" class="form-control"placeholder={{#quote}}{{#str}}password{{/str}}{{/quote}}>
+        </div>
+        
+        <div class="form-group clearfix">
+            {{#rememberusername}}
+                <div class="checkbox-custom checkbox-inline checkbox-primary float-left rememberpass">
+                    <input type="checkbox" id="rememberusername" name="rememberusername" value="1" {{#username}}checked="checked"{{/username}} />
+                    <label for="rememberusername">{{#str}} rememberusername, admin {{/str}}</label>
+                </div>
+            {{/rememberusername}}
+            <a class="float-right" href="{{forgotpasswordurl}}">{{# str }} forgotpassword, theme_remui {{/ str }}</a>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-block" id="loginbtn">{{#str}}login{{/str}}</button>
+    </form>
+
+    {{#hasinstructions}}
+        {{#cansignup}}
+        <p>{{# str }} noaccount, theme_remui {{/ str }} <a href="{{signupurl}}">{{#str}}startsignup{{/str}}</a></p>
+        {{/cansignup}}
+    {{/hasinstructions}}
+
+    {{#canloginasguest}}
+        <div class="form-group clearfix">
+            <!-- {{#str}}someallowguest{{/str}} -->
+            <form action="{{loginurl}}" method="post" id="guestlogin" class="m-0 w-p100">
+                <input type="hidden" name="username" value="guest" />
+                <input type="hidden" name="password" value="guest" />
+                <button class="btn btn-default btn-block" type="submit">{{#str}}loginguest{{/str}}</button>
+            </form>
+        </div>
+    {{/canloginasguest}}
+    
+    <!-- <div class="forgetpass m-t-1">
+        <p><a href="{{forgotpasswordurl}}">{{#str}}forgotten{{/str}}</a></p>
+    </div> -->
+
+    <div class="hidden-xs-up">
+        {{#str}} cookiesenabled {{/str}}
+        {{{cookieshelpiconformatted}}}
+    </div>
+
+    {{#hasidentityproviders}}
+        <h6 class="m-t-2">{{#str}} potentialidps, auth {{/str}}</h6>
+        <div class="potentialidplist" class="m-t-1">
+            {{#identityproviders}}
+                <div class="potentialidp">
+                    <a href="{{url}}" title={{#quote}}{{name}}{{/quote}} class="btn btn-secondary btn-block">
+                        {{#iconurl}}
+                            <img src="{{iconurl}}" alt="" width="24" height="24"/>
+                        {{/iconurl}}
+                        {{name}}
+                    </a>
+                </div>
+            {{/identityproviders}}
+        </div>
+    {{/hasidentityproviders}}
+
+    <footer class="page-copyright">
+        {{# loginsocial_context }}
+        {{# social }}
+        <p>{{# str }} followus, theme_remui {{/ str }}</p>
+        <div class="social">
+            {{# facebook }}
+                <a href="{{ facebook }}" class="btn btn-icon btn-round social-facebook m-5"><i class="icon fa-facebook" aria-hidden="true"></i></a>
+            {{/ facebook }}
+            {{# twitter }}
+                <a href="{{ twitter }}" class="btn btn-icon btn-round social-twitter m-5"><i class="icon fa-twitter" aria-hidden="true"></i></a>
+            {{/ twitter }}
+            {{# linkedin }}
+                <a href="{{ linkedin }}" class="btn btn-icon btn-round social-linkedin m-5"><i class="icon fa-linkedin" aria-hidden="true"></i></a>
+            {{/ linkedin }}
+            {{# gplus }}
+                <a href="{{ gplus }}" class="btn btn-icon btn-round social-google-plus m-5"><i class="icon fa-google-plus" aria-hidden="true"></i></a>
+            {{/ gplus }}
+            {{# instagram }}
+                <a href="{{ instagram }}" class="btn btn-icon btn-round social-instagram m-5"><i class="icon fa-instagram" aria-hidden="true"></i></a>
+            {{/ instagram }}
+            {{# youtube }}
+                <a href="{{ youtube }}" class="btn btn-icon btn-round social-youtube m-5"><i class="icon fa-youtube" aria-hidden="true"></i></a>
+            {{/ youtube }}
+            {{# pinterest }}
+                <a href="{{ pinterest }}" class="btn btn-icon btn-round social-pinterest m-5"><i class="icon fa-pinterest" aria-hidden="true"></i></a>
+            {{/ pinterest }}
+        </div>
+        {{/ social }}
+        {{/ loginsocial_context }}
+    </footer>
+</div>
+
+{{#js}}
+    {{#error}}
+        require(['jquery'], function($) {
+            $('#loginerrormessage').focus();
+        });
+    {{/error}}
+    {{^error}}
+        {{#autofocusform}}
+            require(['jquery'], function($) {
+                if ($('#username').val()) {
+                    $('#password').focus();
+                } else {
+                    $('#username').focus();
+                }
+            });
+        {{/autofocusform}}
+    {{/error}}
+{{/js}}

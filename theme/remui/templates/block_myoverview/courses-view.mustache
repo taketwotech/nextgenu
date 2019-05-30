@@ -1,0 +1,119 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_myoverview/courses-view
+
+    This template renders the courses view for the myoverview block.
+
+    Example context (json):
+    {}
+}}
+<div id="courses-view-{{uniqid}}" data-region="courses-view" class = "w-p100">
+    {{#hascourses}}
+    <h5 class="px-15 bold">{{#str}}mycourses, theme_remui{{/str}}</h5>
+    <div class = "w-p100 d-flex my-10" id = "course-overview-section">
+        <ul class="nav nav-tabs nav-tabs-line border-0 mx-15 w-full" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#myoverview_courses_view_in_progress" data-toggle="tab">
+                    {{#str}} inprogress, block_myoverview {{/str}}
+                    <span class="badge badge-pill badge-important" data-region="count-container">{{incoursecount}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#myoverview_courses_view_future" data-toggle="tab">
+                    {{#str}} upcoming, theme_remui {{/str}}
+                    <span class="badge badge-pill badge-important" data-region="count-container">{{futurecount}}</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#myoverview_courses_view_past" data-toggle="tab">
+                    {{#str}} expired, theme_remui {{/str}}
+                    <span class="badge badge-pill badge-important" data-region="count-container">{{duecount}}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content pt-10">
+        <div role="tabpanel" class="tab-pane fade show active"  id="myoverview_courses_view_in_progress">
+            {{#inprogress}}
+            {{< block_myoverview/courses-view-by-status }}
+            {{$id}}courses-view-in-progress{{/id}}
+            {{$status}}1{{/status}}
+            {{$pagingbarid}}pb-for-in-progress{{/pagingbarid}}
+            {{$pagingcontentid}}pc-for-in-progress{{/pagingcontentid}}
+            {{/ block_myoverview/courses-view-by-status }}
+            {{/inprogress}}
+            {{^inprogress}}
+            <div class="text-center mt-3 h-200 d-flex align-items-center justify-content-center flex-column">
+                <img class="empty-placeholder-image-lg"
+                src="{{urls.nocourses}}"
+                alt="{{#str}} nocoursesinprogress, block_myoverview {{/str}}"
+                role="presentation">
+                <p class="text-muted mt-1">{{#str}} nocoursesinprogress, block_myoverview {{/str}}</p>
+            </div>
+            {{/inprogress}}
+        </div>
+        <div role="tabpanel" class="tab-pane fade"  id="myoverview_courses_view_future">
+            {{#future}}
+            {{< block_myoverview/courses-view-by-status }}
+            {{$id}}courses-view-future{{/id}}
+            {{$status}}2{{/status}}
+            {{$pagingbarid}}pb-for-future{{/pagingbarid}}
+            {{$pagingcontentid}}pc-for-future{{/pagingcontentid}}
+            {{/ block_myoverview/courses-view-by-status }}
+            {{/future}}
+            {{^future}}
+            <div class="text-center mt-3 h-200 d-flex align-items-center justify-content-center flex-column">
+                <img class="empty-placeholder-image-lg"
+                src="{{urls.nocourses}}"
+                alt="{{#str}} nocoursesfuture, block_myoverview {{/str}}"
+                role="presentation">
+                <p class="text-muted mt-1">{{#str}} nocoursesfuture, block_myoverview {{/str}}</p>
+            </div>
+            {{/future}}
+        </div>
+        <div role="tabpanel" class="tab-pane fade"  id="myoverview_courses_view_past">
+            {{#past}}
+            {{< block_myoverview/courses-view-by-status }}
+            {{$id}}courses-view-past{{/id}}
+            {{$status}}0{{/status}}
+            {{$pagingbarid}}pb-for-past{{/pagingbarid}}
+            {{$pagingcontentid}}pc-for-past{{/pagingcontentid}}
+            {{/ block_myoverview/courses-view-by-status }}
+            {{/past}}
+            {{^past}}
+            <div class="text-center mt-3 h-200 d-flex align-items-center justify-content-center flex-column">
+                <img class="empty-placeholder-image-lg"
+                src="{{urls.nocourses}}"
+                alt="{{#str}} nocoursespast, block_myoverview {{/str}}"
+                role="presentation">
+                <p class="text-muted mt-1">{{#str}} nocoursespast, block_myoverview {{/str}}</p>
+            </div>
+            {{/past}}
+        </div>
+    </div>
+    {{/hascourses}}
+</div>
+{{#js}}
+require(['jquery', 'core/custom_interaction_events'], function($, customEvents) {
+var root = $('#courses-view-{{uniqid}}');
+customEvents.define(root, [customEvents.events.activate]);
+root.on(customEvents.events.activate, '[data-toggle="btns"] > .btn', function() {
+root.find('.btn.active').removeClass('active');
+});
+});
+{{/js}}

@@ -1,0 +1,154 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template block_myoverview/event-list
+
+    This template renders a list of events for the myoverview block.
+
+    Example context (json):
+    {
+    }
+}}
+{{# latestdashboard }}
+<div data-region="event-list-container"
+     data-limit="{{$limit}}50{{/limit}}"
+     data-course-id="{{$courseid}}{{/courseid}}"
+     data-last-id="{{$lastid}}{{/lastid}}"
+     data-midnight="{{midnight}}"
+     id="event-list-container-{{$courseid}}{{/courseid}}">
+
+    <div data-region="event-list-content" id = "wdm-timeline-event">
+        <div class = "w-p100 d-flex flex-column bg-white py-10">
+            <h5 class="px-15 pt-15  m-0 bold">{{#str}}tasks, theme_remui{{/str}}</h5>
+            <ul class="nav nav-tabs nav-tabs-line border-0 justify-content-center" role="tablist">
+                <li class="nav-item today">
+                    <a class="nav-link active" href="#myoverview_today_view" role="tab" data-toggle="tab">
+                        {{#str}} today, theme_remui {{/str}}
+                        <span class="badge badge-pill badge-important" data-region="count-container">0</span>
+                    </a>
+                </li>
+                <li class="nav-item future">
+                    <a class="nav-link" href="#myoverview_future_view" role="tab" data-toggle="tab">
+                        {{#str}} upcoming, theme_remui {{/str}}
+                        <span class="badge badge-pill badge-important" data-region="count-container">0</span>
+                    </a>
+                </li>
+                <li class="nav-item overdue">
+                    <a class="nav-link" href="#myoverview_overdue_view" role="tab" data-toggle="tab">
+                        {{#str}} overdue, theme_remui {{/str}}
+                        <span class="badge badge-pill badge-important" data-region="count-container">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade show active" id="myoverview_today_view">
+                {{< block_myoverview/event-list-group }}
+                    {{$title}}{{#str}} today, theme_remui {{/str}}{{/title}}
+                    {{$extratitleclasses}}{{/extratitleclasses}}
+                    {{$startday}}0{{/startday}}
+                    {{$endday}}1{{/endday}}
+                    {{$tab}}1{{/tab}}
+                {{/ block_myoverview/event-list-group }}
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="myoverview_future_view">
+                {{< block_myoverview/event-list-group }}
+                    {{$title}}{{#str}} future, block_myoverview {{/str}}{{/title}}
+                    {{$extratitleclasses}}{{/extratitleclasses}}
+                    {{$startday}}1{{/startday}}
+                    {{$endday}}{{/endday}}
+                    {{$tab}}2{{/tab}}
+                {{/ block_myoverview/event-list-group }}  
+            </div> 
+            <div role="tabpanel" class="tab-pane fade" id="myoverview_overdue_view">
+                {{< block_myoverview/event-list-group }}
+                    {{$title}}{{#str}} recentlyoverdue, block_myoverview {{/str}}{{/title}}
+                    {{$extratitleclasses}}text-danger{{/extratitleclasses}}
+                    {{$startday}}-14{{/startday}}
+                    {{$endday}}0{{/endday}}
+                    {{$tab}}3{{/tab}}
+                {{/ block_myoverview/event-list-group }}
+            </div>
+        </div>
+    </div>
+</div>
+{{/ latestdashboard }}
+{{^ latestdashboard }}
+<div data-region="event-list-container"
+     data-limit="{{$limit}}20{{/limit}}"
+     data-course-id="{{$courseid}}{{/courseid}}"
+     data-last-id="{{$lastid}}{{/lastid}}"
+     data-midnight="{{midnight}}"
+     id="event-list-container-{{$courseid}}{{/courseid}}">
+
+    <div data-region="event-list-content">
+        {{< block_myoverview/event-list-group }}
+            {{$title}}{{#str}} recentlyoverdue, block_myoverview {{/str}}{{/title}}
+            {{$extratitleclasses}}text-danger{{/extratitleclasses}}
+            {{$startday}}-14{{/startday}}
+            {{$endday}}0{{/endday}}
+        {{/ block_myoverview/event-list-group }}
+        {{< block_myoverview/event-list-group }}
+            {{$title}}{{#str}} today {{/str}}{{/title}}
+            {{$extratitleclasses}}{{/extratitleclasses}}
+            {{$startday}}0{{/startday}}
+            {{$endday}}1{{/endday}}
+        {{/ block_myoverview/event-list-group }}
+        {{< block_myoverview/event-list-group }}
+            {{$title}}{{#str}} next7days, block_myoverview {{/str}}{{/title}}
+            {{$extratitleclasses}}{{/extratitleclasses}}
+            {{$startday}}1{{/startday}}
+            {{$endday}}7{{/endday}}
+        {{/ block_myoverview/event-list-group }}
+        {{< block_myoverview/event-list-group }}
+            {{$title}}{{#str}} next30days, block_myoverview {{/str}}{{/title}}
+            {{$extratitleclasses}}{{/extratitleclasses}}
+            {{$startday}}7{{/startday}}
+            {{$endday}}30{{/endday}}
+        {{/ block_myoverview/event-list-group }}
+        {{< block_myoverview/event-list-group }}
+            {{$title}}{{#str}} future, block_myoverview {{/str}}{{/title}}
+            {{$extratitleclasses}}{{/extratitleclasses}}
+            {{$startday}}30{{/startday}}
+            {{$endday}}{{/endday}}
+        {{/ block_myoverview/event-list-group }}
+
+        <div class="text-xs-center text-center m-y-2">
+            <button type="button" class="btn btn-secondary" data-action="view-more">
+                {{#str}} viewmore {{/str}}
+                <span class="hidden" data-region="loading-icon-container">
+                    {{> core/loading }}
+                </span>
+            </button>
+        </div>
+    </div>
+    <div class="hidden text-xs-center text-center m-t-3" data-region="empty-message">
+        <img class="empty-placeholder-image-lg"
+             src="{{urls.noevents}}"
+             alt="{{#str}} noevents, block_myoverview {{/str}}"
+             role="presentation">
+        <p class="text-muted m-t-1">{{#str}} noevents, block_myoverview {{/str}}</p>
+    </div>
+</div>
+{{/ latestdashboard}}
+{{#js}}
+require(['jquery', 'block_myoverview/event_list'], function($, EventList) {
+    var root = $("#event-list-container-{{$courseid}}{{/courseid}}");
+    EventList.registerEventListeners(root);
+});
+{{/js}}

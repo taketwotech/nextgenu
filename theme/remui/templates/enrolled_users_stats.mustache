@@ -1,0 +1,36 @@
+
+<div id="enrolled_users_stats">
+  <div class="card card-shadow m-0">
+    <div class="widget-content tab-content bg-white p-20">
+      {{# hascategory }}
+        <div class="row">
+          <div class="col-md-4 offset-md-1">
+            <div class="chart-responsive">
+              <canvas id="pieChart"></canvas>
+            </div>
+          </div>
+          <div class="col-md-5 offset-md-2">
+            <label class="font-weight-400 blue-grey-600 font-size-14">{{#str}}selectcategory, theme_remui{{/str}} :</label>
+            <select id='coursecategorylist' class='coursecategorylist form-control mb-10'>
+              {{# category }}
+                <option data-id="{{ key }}">{{ categoryname }}</option>
+              {{/ category }}
+            </select>
+            <ul class="chart-legend list-group list-group-full clearfix"></ul>
+          </div>
+        </div>
+        <div class="enroll-stats-error alert alert-danger" style="display:none">
+          {{#str}}problemwhileloadingdata, theme_remui{{/str}}
+        </div>
+        <div class="enroll-stats-nouserserror alert alert-info" style="display:none">
+          {{#str}}nousersincoursecategoryfound, theme_remui{{/str}}
+        </div>
+      {{/ hascategory }}
+      {{^ hascategory }}
+        <div class="enroll-stats-error alert alert-info">
+          {{#str}}nocoursecategoryfound, theme_remui{{/str}}
+        </div>
+      {{/ hascategory }}
+    </div>
+  </div>
+</div>

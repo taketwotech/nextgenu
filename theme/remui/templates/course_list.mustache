@@ -1,0 +1,77 @@
+
+<div class="col-12 col-sm-6 col-md-4 col-lg-3 d-sm-flex">
+    <div class="card w-full rounded-bottom">
+        <!--<img class="card-img-top" src="{{ courseimage }}" alt="{{ coursename }}">-->
+        <div class="h-200 rounded-top" style="background-image: url('{{ courseimage }}');background-size: cover;background-position: center;"></div>
+
+        {{# instructors }}
+        <a href="{{ url }}" class="d-block" style="position: absolute; top: 175px; right: 25px;" data-toggle="tooltip" title="{{ name }}">
+            <img src="{{ picture }}" style="border: 2px solid white; cursor: pointer;" class="h-50 w-50 rounded-circle" alt="{{ name }}" />
+        </a>
+        {{/ instructors }}
+        <div class="card-block">
+            <h4 class="card-title mt-10"><a href="{{ courseurl }}" class="font-weight-400 blue-grey-600 font-size-18">{{{ coursename }}}</a></h4>
+            <p class="card-text"><span class="text-muted">{{{ categoryname }}}</span></p>
+            <p class="card-text">{{{ coursesummary }}}</p>
+        </div>
+
+        {{# mycourses}}
+            {{# coursecompleted }}
+                <div class="card-footer card-footer-transparent p-0">
+                    <a href="{{ courseurl }}" class="btn btn-success btn-block p-10 bg-green-500 border-0 rounded-0 text-white font-weight-800" href="">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    {{coursecompleted}}</a>
+                </div>
+            {{/ coursecompleted }}
+
+            {{# courseinprogress }}
+                <div class="progress progress-xs m-0 bg-purple-200 w-p100">
+                    <div class="progress-bar bg-purple-400" style="width: {{percentage}}%;" role="progressbar">
+                    </div>
+                </div>
+                <div class="card-footer card-footer-transparent p-0">
+                    <a href="{{# lastaccessactivity}} {{lastaccessactivity}} {{/ lastaccessactivity}}{{^ lastaccessactivity}} {{ courseurl }} {{/ lastaccessactivity}}" class="btn btn-default btn-block p-10 bg-purple-500 border-0 rounded-0 text-white font-weight-800" href=""><i class="fa fa-refresh" aria-hidden="true"></i>
+                    {{courseinprogress}}</a>
+                </div>
+            {{/ courseinprogress }}
+
+            {{# coursetostart }}
+                <div class="card-footer card-footer-transparent p-0">
+                    <a href="{{ courseurl }}" class="btn btn-info btn-block p-10 border-0 rounded-0 text-white font-weight-800" href=""><i class="fa fa-play-circle" aria-hidden="true"></i>
+                    {{coursetostart}}</a>
+                </div>
+            {{/ coursetostart }}
+        {{/ mycourses}}
+
+        {{^ mycourses}}
+            {{# usercanmanage }}
+                <div class="card-footer card-footer-transparent text-muted">
+                    <div class="enrolmenticons">
+                        {{{ enrollmenticons }}}
+                    </div>
+
+                    <button type="button"
+                        class="btn btn-icon btn-outline btn-sm btn-primary btn-round float-right showoptions"
+                        data-plugin="toolbar"
+                        data-toolbar="#course-{{ courseid }}-options">
+                        <i class="icon fa fa-cog" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <div class="toolbar-icons tool-items toolbar-primary" id="course-{{ courseid }}-options" hidden="">
+                    <a href="{{ enrollusers }}" class="tool-item" title="{{# str }} enroluser, theme_remui {{/ str }}"><i class="icon fa-users" aria-hidden="true"></i></a>
+                    <a href="{{ grader }}" class="tool-item" title="{{# str }} graderreport, theme_remui {{/ str }}"><i class="icon fa-star" aria-hidden="true"></i></a>
+                    <a href="{{ activity }}" class="tool-item" title="{{# str }} activityeport, theme_remui {{/ str }}"><i class="icon fa fa-chart-pie" aria-hidden="true"></i></a>
+                    <a href="{{ editcourse }}" class="tool-item" title="{{# str }} editcourse, theme_remui {{/ str }}"><i class="icon fa-edit" aria-hidden="true"></i></a>
+                </div>
+            {{/ usercanmanage }}
+
+            {{^ usercanmanage }}
+                <div class="card-footer card-footer-transparent text-muted">
+                    <div class="enrolmenticons">
+                        {{{ enrollmenticons }}}
+                    </div>
+                </div>
+            {{/ usercanmanage }}
+        {{/ mycourses}}
+    </div>
+</div>

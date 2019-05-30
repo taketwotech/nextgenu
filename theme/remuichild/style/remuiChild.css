@@ -1,0 +1,23 @@
+.layer-3 {
+    text-indent: 20%;
+}
+
+.layer-2 {
+    text-indent: 10%;
+}
+
+.fix-misplaced {
+    text-indent: 0px;
+}
+
+.permalink-section {
+    white-space: pre-wrap!important; /* css-3 */    
+    white-space: -moz-pre-wrap!important; /* Mozilla, since 1999 */
+    white-space: -pre-wrap!important; /* Opera 4-6 */    
+    white-space: -o-pre-wrap!important; /* Opera 7 */    
+    word-wrap: break-word!important; /* Internet Explorer 5.5+ */
+    -webkit-hyphens: auto!important;
+    -moz-hyphens: auto!important;
+    -ms-hyphens: auto!important;
+    hyphens: auto!important;
+}

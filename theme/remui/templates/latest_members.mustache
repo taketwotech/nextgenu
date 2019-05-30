@@ -1,0 +1,32 @@
+
+<div id="latest_members">
+  {{# is_siteadmin }}
+    <div class="card card-shadow h-350" style="overflow-y: hidden;">
+      <div class="card-header card-header-transparent pt-20 pb-0">
+        <h5 class="page-aside-title p-0 py-10 m-0">
+          <!-- <i class="fa fa-users" aria-hidden="true"></i> --> {{#str}}latestmembers, theme_remui{{/str}}
+        </h5>
+      </div>
+      <div class="divScroll">
+      <div data-role="container">
+      <div data-role="content">
+      <div class="widget-content tab-content bg-white p-20">
+        <ul class="users-list">
+          {{# latest_members }}
+            <li class="list-inline-item">
+              <img src="{{ img }}" alt="{{#str}}userimage, theme_remui{{/str}}">
+                <a class="users-list-name" href="{{ profile_url }}={{ id }}">{{ name }}</a>
+                <span class="users-list-date">{{ register_date }}</span>
+            </li>
+          {{/ latest_members }}
+        </ul>
+        <div class="text-center pt-15" style="clear: both;">
+          <a href="{{ user_profiles }}" class="uppercase">{{#str}}viewallusers, theme_remui{{/str}}</a>
+        </div>
+      </div>
+      </div>
+      </div>
+      </div>
+    </div>
+  {{/ is_siteadmin }}
+</div>

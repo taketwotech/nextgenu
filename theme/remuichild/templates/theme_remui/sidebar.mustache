@@ -1,0 +1,67 @@
+{{!
+    @template theme_remuichild/nav-drawer
+
+
+    Example context (json): {}
+}}
+
+   <div class="site-menubar {{ sidebarcolor }} moodle-has-zindex">
+    <div class="site-menubar-body">
+      <div>
+        <ul class="site-menu mt-15" data-plugin="menu">
+            {{# isactivitypage }}
+              {{> theme_remui/activity_navigation }}
+            {{/ isactivitypage }}
+
+          {{^ isactivitypage }}
+            {{> theme_remui/flat_navigation }}
+          {{/ isactivitypage }}
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-menubar-footer">
+      {{# output.check_user_site_admin }}
+        {{# output.check_blog_enable }}
+            <a href="{{config.wwwroot}}/blog/index.php" class="w-p25" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}siteblog, theme_remui{{/str}}">
+              <span class="icon fa-comments" aria-hidden="true"></span>
+            </a>
+            <a href="{{ coursecreationlink }}" class="w-p25" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}createanewcourse, theme_remui{{/str}}">
+              <span class="icon fa fa-file" aria-hidden="true"></span>
+            </a>
+            <a href="{{config.wwwroot}}/course/index.php" class="w-p25" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}createarchivepage, theme_remui{{/str}}">
+              <span class="icon fa fa-archive" aria-hidden="true"></span>
+            </a>
+            <a href="{{config.wwwroot}}/admin/settings.php?section=themesettingremui" class="fold-show w-p25" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}remuisettings, theme_remui{{/str}}">
+              <span class="icon fa fa-cogs" aria-hidden="true"></span>
+            </a>
+        {{/ output.check_blog_enable }}
+        {{^ output.check_blog_enable }}
+            <a href="{{ coursecreationlink }}" class="col-4" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}createanewcourse, theme_remui{{/str}}">
+              <span class="icon fa fa-file" aria-hidden="true"></span>
+            </a>
+            <a href="{{config.wwwroot}}/course/index.php" class="col-4" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}createarchivepage, theme_remui{{/str}}">
+              <span class="icon fa fa-archive" aria-hidden="true"></span>
+            </a>
+            <a href="{{config.wwwroot}}/admin/settings.php?section=themesettingremui" class="fold-show col-4" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}remuisettings, theme_remui{{/str}}">
+              <span class="icon fa fa-cogs" aria-hidden="true"></span>
+            </a>
+        {{/ output.check_blog_enable }}
+      {{/ output.check_user_site_admin }}
+      {{^ output.check_user_site_admin }}
+        {{# output.check_blog_enable }}
+            <a href="{{config.wwwroot}}/blog/index.php" class="fold-show w-p50" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}siteblog, theme_remui{{/str}}">
+              <span class="icon fa-comments" aria-hidden="true"></span>
+            </a>
+            <a href="{{config.wwwroot}}/course/index.php" class="w-p50" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}createarchivepage, theme_remui{{/str}}">
+              <span class="icon fa fa-archive" aria-hidden="true"></span>
+            </a>
+        {{/ output.check_blog_enable }}
+        {{^ output.check_blog_enable }}
+            <a href="{{config.wwwroot}}/course/index.php" class="fold-show w-p100" data-placement="top" data-toggle="tooltip" data-original-title="{{#str}}createarchivepage, theme_remui{{/str}}">
+              <span class="icon fa fa-archive" aria-hidden="true"></span>
+            </a>
+        {{/ output.check_blog_enable }}
+      {{/ output.check_user_site_admin }}
+    </div>
+  </div>

@@ -1,0 +1,178 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template theme_remui/columns2
+
+    Admin time setting template.
+
+    Boost 2 column layout template.
+
+    Context variables required for this template:
+    * sitename - The name of the site
+    * output - The core renderer for the page
+    * bodyattributes - attributes for the body tag as a string of html attributes
+    * sidepreblocks - HTML for the blocks
+    * hasblocks - true if there are blocks on this page
+    * navdraweropen - true if the nav drawer should be open on page load
+    * regionmainsettingsmenu - HTML for the region main settings menu
+    * hasregionmainsettingsmenu - There is a region main settings menu on this page.
+
+    Example context (json):
+    {
+        "sitename": "Moodle",
+        "output": {
+            "doctype": "<!DOCTYPE html>",
+            "page_title": "Test page",
+            "favicon": "favicon.ico",
+            "main_content": "<h1>Headings make html validators happier</h1>"
+         },
+        "bodyattributes":"",
+        "sidepreblocks": "<h2>Blocks html goes here</h2>",
+        "hasblocks":true,
+        "navdraweropen":true,
+        "regionmainsettingsmenu": "",
+        "hasregionmainsettingsmenu": false
+    }
+}}
+{{> theme_remui/common_start }}
+
+        <div class="page-main">
+        <div class="container">
+            {{{ output.full_header }}}
+
+            <div class="page-content">
+
+                <div class="row search-filters pb-5">
+                    <!-- <div class="col-12 col-md-3 col-lg-3 col-sm-12 d-inline-block pb-15" > -->
+                        <div class="col-12 col-md-12 col-lg-6 col-sm-12 d-inline-block pb-15">
+                            {{{ categoryfilter }}}
+                        </div>
+
+                        <div class="col-12 col-md-9 col-lg-4 col-sm-12 d-inline-block pb-15">
+                            {{{ searchfilter }}}
+                        </div>
+
+                        <div class="col-12 col-md-3 col-lg-2 col-sm-12 d-inline-block pb-15 text-right hidden-sm-down">
+                            {{{ viewtoggler }}}
+                        </div>
+
+                        {{# categorydescription }}
+                        <div class="col-12 pb-15">
+                            {{{ categorydescription }}}
+                        </div>
+                        {{/ categorydescription }}
+                </div>
+
+
+
+
+                    <div class = "nav-tabs-horizontal" data-plugin="tabs">
+                                <ul class="nav nav-tabs nav-tabs-line" role="tablist">
+                                    {{# isloggedin }}
+                                    <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#mycoursestab" aria-controls="mycoursestab" role="tab">{{#str}} mycourses, theme_remui {{/str}}</a></li>
+                                    {{/ isloggedin }}
+                                    <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#coursestab" aria-controls="coursestab" role="tab">{{#str}} courses, theme_remui {{/str}}</a></li>
+                                    {{# isloggedin }}
+                                    <li class="dropdown nav-item" role="presentation" style="display: none;">
+                                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#" aria-expanded="false">Menu </a>
+                                        <div class="dropdown-menu" role="menu">
+                                            <a class="dropdown-item" data-toggle="tab" href="#mycoursestab" aria-controls="mycoursestab" role="tab">{{#str}} mycourses, theme_remui {{/str}}</a>
+                                            <a class="dropdown-item" data-toggle="tab" href="#coursestab" aria-controls="coursestab" role="tab">{{#str}} courses, theme_remui {{/str}}</a>
+
+                                        </div>
+                                    </li>
+                                    {{/ isloggedin }}
+                                </ul>
+                                <div class="tab-content pt-20">
+                                    {{# isloggedin }}
+                                    <div class="tab-pane" id="mycoursestab" role="tabpanel">
+                                        <div id="mycategoryCourses" class="row">
+                                            {{# hasmycourses }}
+                                                {{# my_courses }}
+                                                    {{> theme_remui/my_course_card }}
+                                                {{/ my_courses }}
+                                            {{/ hasmycourses }}
+                                            {{^ hasmycourses }}
+                                                <div class="col-12">{{#str}} nocoursesavail, theme_remui {{/str}}</div>
+                                            {{/ hasmycourses }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                {{{ mypagination }}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/ isloggedin }}
+                                    <div class="tab-pane" id="coursestab" role="tabpanel">
+                                        <div id="categoryCourses" class="row">
+                                            {{# hascourses }}
+                                                {{# courses }}
+                                                    {{> theme_remui/course_card }}
+                                                {{/ courses }}
+                                            {{/ hascourses }}
+
+                                            {{^ hascourses }}
+                                                <div class="col-12">{{#str}} nocoursesavail, theme_remui {{/str}}</div>
+                                            {{/ hascourses }}
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                            {{{ pagination }}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    </div>
+                <div id="region-main-box" class="hidden">
+                    {{#hasregionmainsettingsmenu}}
+                        <div id="region-main-settings-menu" class="hidden-print {{#hasblocks}}has-blocks{{/hasblocks}}">
+                            <div> {{{ output.region_main_settings_menu }}} </div>
+                        </div>
+                    {{/hasregionmainsettingsmenu}}
+                    <section id="region-main" {{#hasblocks}}class="has-blocks"{{/hasblocks}}>
+                        {{#hasregionmainsettingsmenu}}
+                            <div class="region_main_settings_menu_proxy"></div>
+                        {{/hasregionmainsettingsmenu}}
+                        {{{ output.course_content_header }}}
+                        {{{ output.main_content }}}
+                        {{{ output.course_content_footer }}}
+                    </section>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    {{> theme_remui/common_end }}
+
+{{#js}}
+require(['theme_remui/loader', 'theme_remui/jquery-toolbar', 'theme_remui/coursecategory'], function (l, t, c) {
+    Breakpoints();
+    {{# usercanmanage }}
+    // initiate course options toolbar
+    jQuery.each(jQuery('.showoptions'), function(){
+    jQuery(this).toolbar({
+        content: jQuery(this).data('toolbar'),
+        style: 'primary'
+    });
+    });
+
+    jQuery('.tool-item').on('click', function () {
+        window.location = jQuery(this).attr('href');
+    });
+    {{/ usercanmanage }}
+});
+{{/js}}

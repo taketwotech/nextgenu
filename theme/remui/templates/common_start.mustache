@@ -1,0 +1,46 @@
+{{{ output.doctype }}}
+<html {{{ output.htmlattributes }}}>
+<head>
+    <title>{{{ output.page_title }}}</title>
+    <link rel="shortcut icon" href="{{{ output.favicon }}}" />
+    {{{ output.standard_head_html }}}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+</head>
+
+<body {{{ bodyattributes }}} data-isfolded="{{ isfolded }}">
+    {{{ output.standard_top_of_body_html }}}
+
+    {{> theme_remui/header }}
+    {{> theme_remui/sidebar }}
+
+    <div class="page">
+        <div id="gotop" class="to-top {{#hasblock}}hasblock{{/hasblock}}">
+            <i  class="fa fa-chevron-up"></i>
+        </div>
+        {{{ output.render_site_announcement }}}
+         
+        <!-- blocks aside -->
+        {{#hasblocks}}
+        <div class="page-aside-switch-lg hidden-md-down">
+            <i class="wb-chevron-left" aria-hidden="true"></i>
+            <i class="wb-chevron-right" aria-hidden="true"></i>
+        </div>
+        <div class="page-aside d-0">
+            <div class="page-aside-switch">
+                <i class="wb-chevron-left" aria-hidden="true"></i>
+                <i class="wb-chevron-right" aria-hidden="true"></i>
+            </div>
+            <div class="page-aside-inner page-aside-scroll">
+                <div data-role="container">
+                    <div data-role="content">
+                        {{{ sidepreblocks }}}
+                    </div>
+                </div>
+            </div>
+            <!---page-aside-inner-->
+        </div>
+                  
+        {{/ hasblocks}}
+        <!-- end blocks aside -->

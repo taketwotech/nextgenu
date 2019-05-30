@@ -1,0 +1,41 @@
+
+<div id="add_notes">
+  {{# has_courses }}
+    <div class="card card-shadow h-350" style="overflow-y: hidden;">
+      <div class="card-header card-header-transparent pt-20 pb-0">
+        <h5 class="page-aside-title p-0 py-10 m-0">{{#str}}addnotes, theme_remui{{/str}}
+        </h5>
+      </div>
+      <div class="divScroll">
+      <div data-role="container">
+      <div data-role="content" class="h-250">
+      <div class="widget-content tab-content bg-white px-20">
+        <div class="add-notes-select">
+            <select class="form-control">
+              <option value="">{{#str}}selectacourse, theme_remui{{/str}}</option>
+              {{# courses }}
+              <option id="{{ id }}">{{ shortname }}</option>
+              {{/ courses }}
+            </select>
+        </div>
+        <br>
+        <select class="select2-studentlist form-control"></select>
+        <br><br>
+        <div class="row px-15">
+          <div class="add-notes-button">
+            <a href="#" class="btn btn-xs btn-info site-note">{{#str}}addsitenote, theme_remui{{/str}}</a>
+          </div>
+          <div class="add-notes-button mx-auto">
+            <a href="#" class="btn btn-xs btn-info course-note">{{#str}}addcoursenote, theme_remui{{/str}}</a>
+          </div>
+          <div class="add-notes-button">
+            <a href="#" class="btn btn-xs btn-info personal-note">{{#str}}addpersonalnote, theme_remui{{/str}}</a>
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
+      </div>
+    </div>
+  {{/ has_courses }}
+</div>

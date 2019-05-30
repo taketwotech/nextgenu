@@ -1,0 +1,29 @@
+<div id="recent-section">
+    <div class = "w-p100 bg-white">
+        <ul class="nav nav-tabs nav-tabs-line border-0 p-15" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" href="#recent_assignment" role="tab" data-toggle="tab">
+                    {{# hasrecentassignments }}
+                        {{#str}}assignmentstobegraded, theme_remui{{/str}}
+                    {{/ hasrecentassignments }}
+                    {{^ hasrecentassignments }}
+                        {{#str}}recentfeedback, theme_remui{{/str}}
+                    {{/ hasrecentassignments }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#recent_active_forum" role="tab" data-toggle="tab">
+                    {{#str}}recentlyactiveforums, theme_remui{{/str}}
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content bg-white">
+        <div role="tabpanel" class="tab-pane fade show active" id="recent_assignment">
+            {{> theme_remui/recent_assignments }}
+        </div>
+        <div role="tabpanel" class="tab-pane fade show" id="recent_active_forum">
+            {{> theme_remui/recent_active_forum }}
+        </div>
+    </div>
+</div>
